@@ -112,14 +112,12 @@ app.get('/example', (req: any, res: any) => {
 
 app.get('/holdings', (req: any, res: any) => {
   connection.query('SELECT * FROM holdings', (err: any, rows: any, fields: any) => {
-    console.log(err);
-    console.log(rows);
-    console.log(fields);
+    if (err !== null) {
+      return res.json(JSON.parse('{}'));
+    }
+
+    return res.json(rows);
   });
-
-  const response = '{}';
-
-  res.json(JSON.parse(response));
 });
 
 app.listen(port, () => {

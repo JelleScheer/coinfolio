@@ -14,8 +14,8 @@
               <p class="text-gray-500">
                 ${{ coin.quote.USD.price.toFixed(2) }}
                 <span class="text-sm font-medium" :class="coin.quote.USD.percent_change_24h > 0 ? 'text-green-500' : 'text-red-500'">
-            {{ coin.quote.USD.percent_change_24h.toFixed(2) }}%
-          </span>
+                  {{ coin.quote.USD.percent_change_24h.toFixed(2) }}%
+                </span>
               </p>
             </div>
           </div>
@@ -72,8 +72,8 @@ export default defineComponent({
     }
 
     function setupPusher() {
-      const pusher = new Pusher('dc8def8637464f5becec', {
-        cluster: 'eu',
+      const pusher = new Pusher(import.meta.env.VITE_PUSHER_APP_KEY, {
+        cluster: import.meta.env.VITE_PUSHER_CLUSTER,
       });
 
       const channel = pusher.subscribe('listings');
