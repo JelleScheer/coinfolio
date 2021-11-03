@@ -1,24 +1,18 @@
-# crypto-portfolio
+# Coinfolio
+
+Simple app that shows the live values of the most popular coins. It also lets you manage your own portfolio of said coins, showing how much you own, what it's worth and whether you're making $$$ profits!
 
 ## Project setup
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### Start node.js server
 ```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
+npm run server
 ```
 
-### Lints and fixes files
+### Start vite build
 ```
-npm run lint
+npm run dev
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
