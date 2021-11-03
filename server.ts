@@ -5,17 +5,18 @@ const Pusher = require('pusher');
 const express = require('express');
 const cors = require('cors');
 const mysql = require('mysql');
+const dotenv = require('dotenv');
 
 const app = express();
 const port = 3001;
 
-const allowedOrigins = ['www.example1.com', 'www.example2.com', 'http://localhost:3000'];
+dotenv.config();
 
 const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'newuser',
-  password: 'testtest',
-  database: 'coinfolio',
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE,
 });
 
 connection.connect();
@@ -23,7 +24,7 @@ connection.connect();
 app.use(cors({
   origin(origin: any, callback: any) {
     if (!origin) return callback(null, true);
-    if (allowedOrigins.indexOf(origin) === -1) {
+    if (['http://localhost:3000'].indexOf(origin) === -1) {
       const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
       return callback(new Error(msg), false);
     }
@@ -32,18 +33,18 @@ app.use(cors({
 }));
 
 const pusher = new Pusher({
-  appId: '742065',
-  key: 'dc8def8637464f5becec',
-  secret: 'fc7de3aae2b1d630c9f5',
-  cluster: 'eu', // if `host` is present, it will override the `cluster` option.
+  appId: process.env.PUSHER_APP_ID,
+  key: process.env.PUSHER_KEY,
+  secret: process.env.PUSHER_SECRET,
+  cluster: process.env.PUSHER_CLUSTER,
 });
 
 const axiosInstance = axios.create({
   // baseURL: 'https://pro-api.coinmarketcap.com/v1/cryptocurrency',
   baseURL: 'https://sandbox-api.coinmarketcap.com/v1/cryptocurrency',
   headers: {
-    // 'X-CMC_PRO_API_KEY': '227b7598-5bb2-4084-8896-f5ce6b04b9ec',
-    'X-CMC_PRO_API_KEY': 'b54bcf4d-1bca-4e8e-9a24-22ff2c3d462c',
+    // 'X-CMC_PRO_API_KEY': process.env.COINMARKET_API_KEY,
+    'X-CMC_PRO_API_KEY': process.env.COINMARKET_SANDBOX_KEY,
   },
 });
 
