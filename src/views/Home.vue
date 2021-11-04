@@ -94,11 +94,12 @@ export default defineComponent({
         const listing = Object.assign(new Listing(), JSON.parse(listingChunk.chunks.join('')));
 
         state.listings.push(listing);
+        store.coins = listing.data;
       }
     }
 
     function setupPusher() {
-      const pusher = new Pusher(import.meta.env.VITE_PUSHER_APP_KEY, {
+      const pusher = new Pusher(import.meta.env.VITE_PUSHER_KEY, {
         cluster: import.meta.env.VITE_PUSHER_CLUSTER,
       });
 
@@ -110,9 +111,14 @@ export default defineComponent({
     }
 
     onMounted(async () => {
-      // setupPusher();
-      fetchStaticCoinData();
+      fetchCoinData();
+      setupPusher();
+      // fetchStaticCoinData();
     });
+
+    function fetchCoinData() {
+      axios.get('http://127.0.0.1:3001/listings');
+    }
 
     function fetchStaticCoinData() {
       axios.get('http://127.0.0.1:3001/example').then((response) => {
