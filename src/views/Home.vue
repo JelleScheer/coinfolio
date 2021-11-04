@@ -104,6 +104,7 @@ export default defineComponent({
 <style lang="scss" scoped>
   .coin-listing {
     img {
+      @apply rounded-full;
       width: 48px;
       height: 48px;
     }
