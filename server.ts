@@ -1,25 +1,17 @@
 import { AxiosResponse } from 'axios';
+import { createConnection, Connection } from 'typeorm';
+import Holding from './src/entity/Holding';
 
 const axios = require('axios');
 const Pusher = require('pusher');
 const express = require('express');
 const cors = require('cors');
-const mysql = require('mysql');
 const dotenv = require('dotenv');
 
 const app = express();
 const port = 3001;
 
 dotenv.config();
-
-const connection = mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_DATABASE,
-});
-
-connection.connect();
 
 app.use(cors({
   origin(origin: any, callback: any) {
@@ -38,6 +30,8 @@ const pusher = new Pusher({
   secret: process.env.PUSHER_SECRET,
   cluster: process.env.PUSHER_CLUSTER,
 });
+
+let database: Connection;
 
 const axiosInstance = axios.create({
   // baseURL: 'https://pro-api.coinmarketcap.com/v1/cryptocurrency',
@@ -110,17 +104,23 @@ app.get('/example', (req: any, res: any) => {
   res.json(JSON.parse(response));
 });
 
-app.get('/holdings', (req: any, res: any) => {
-  connection.query('SELECT * FROM holdings', (err: any, rows: any, fields: any) => {
-    if (err !== null) {
-      return res.json(JSON.parse('{}'));
-    }
+app.get('/holdings', async (req: any, res: any) => {
+  const holdings: Holding[] = await database.getRepository(Holding).find();
 
-    return res.json(rows);
-  });
+  return res.json(holdings);
 });
 
-app.listen(port, () => {
+app.listen(port, async () => {
+  database = await createConnection();
+
+  /* const user = new User();
+
+  user.firstName = 'Adam';
+  user.lastName = 'Sandler';
+  user.age = 35;
+
+  await typedatabase.manager.save(user); */
+
   pollListings();
 
   setInterval(() => {
