@@ -1,11 +1,14 @@
 <template>
   <div class="bg-white shadow-sm w-full p-4">
-    <div class="flex items-center justify-end max-w-screen-lg mx-auto">
-      <div class="border-r border-gray-100 mr-4 pr-4 py-2">
-        <span class="text-gray-500 pt-px">${{ totalValue.toFixed(2) }}</span>
+    <div class="flex items-center justify-between max-w-screen-lg mx-auto">
+      <h1 class="uppercase">Coinfolio</h1>
+      <div class="flex items-center">
+        <div class="border-r border-gray-100 mr-4 pr-4 py-2">
+          <span class="text-gray-500 pt-px">${{ totalValue.toFixed(2) }}</span>
+        </div>
+        <img id="profile-avatar" src="https://cdn.thehuddle.nl/uploads/tenants/21/202111/192945-ds2021-01-02-436.jpg">
+        <p class="font-medium">Jelle</p>
       </div>
-      <img id="profile-avatar" src="https://cdn.thehuddle.nl/uploads/tenants/21/202111/192945-ds2021-01-02-436.jpg">
-      <p class="font-medium">Jelle</p>
     </div>
   </div>
 </template>
@@ -54,5 +57,11 @@ export default defineComponent({
     @apply rounded-full mr-3;
     width: 30px;
     height: 30px;
+  }
+
+  h1 {
+    font-size: 26px;
+    letter-spacing: 3px;
+    font-weight: 900;
   }
 </style>
